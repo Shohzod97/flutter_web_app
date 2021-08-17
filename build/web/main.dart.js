@@ -50272,7 +50272,7 @@ F.pP.prototype={
 aL:function(){return new F.EC(C.n)}}
 F.EC.prototype={
 R:function(a,b){var s,r=null,q=L.a2v("\u0413\u0435\u0440\u043e\u0439",r),p=t.R
-p=H.a([M.p7(C.aR,T.adY(H.a([L.a2v("okey",r)],p),C.hZ),r,r,r,C.mn,r)],p)
+p=H.a([M.p7(C.aR,T.adY(H.a([L.a2v("Super",r)],p),C.hZ),r,r,r,C.mn,r)],p)
 s=P.aC([null,0],t.st,t.S)
 return new M.ru(new E.oI(q,new P.Z(1/0,56),r),M.p7(r,M.p7(r,new B.yW(new G.Uo(!0,!0,!0,p,s),r,C.m,!1,r,!0,C.jD,!1,r,1,C.aW,C.wp,r,C.ae,r),C.j,r,r,r,r),r,r,r,r,r),r)}}
 E.hS.prototype={

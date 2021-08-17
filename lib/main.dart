@@ -46,7 +46,7 @@ class _HeroPageState extends State<HeroPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('okey'),
+            Text('Super'),
           ],
         ),
       ),
