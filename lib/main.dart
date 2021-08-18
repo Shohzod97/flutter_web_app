@@ -1,56 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'home.dart';
+import 'first_page.dart';
+import 'second_page.dart';
+
+
+
+void main() async {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HeroPage(),
+      debugShowCheckedModeBanner: false,
+      home: SecondPage(),
+
+      routes: {
+        'home': (context) => HomePage(),
+        "first": (context) => FirstPage(),
+        "second": (context) => SecondPage(),
+      },
     );
   }
 }
-
-class HeroPage extends StatefulWidget {
-  @override
-  _HeroPageState createState() => _HeroPageState();
-}
-
-class _HeroPageState extends State<HeroPage> {
-
-  @override
-  Widget build(BuildContext context) {                  //Страница с героем
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Герой"),
-        ),
-        body: Container(
-          child: _buildStruct(),
-        ));
-  }
-
-  Widget _buildStruct() => Container(
-    color: Colors.white,
-    child: ListView(children: [
-      Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.only(top: 150),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Super'),
-          ],
-        ),
-      ),
-    ]),
-  );
-}
-
