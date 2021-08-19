@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'data.dart';
 
 class SecondPage extends StatefulWidget {
   @override
@@ -10,79 +14,41 @@ class SecondPage extends StatefulWidget {
 class _SecondPageState extends State<SecondPage> {
   var formstate = GlobalKey<FormState>(); //для key в Form
 
-  var usernameInputed, passwordInputed, emailInputed;
-
   /////////
 
-  var invent7 = 0;
-  var invent15 = 0;
-  var invent35 = 0;
+  var gPackage = 7000;
+  var gLevel = 5;
+  num gPercent = 10;
 
-  var countPeople = 0;
-  var rewardRef = 0;
-  var pointsMP = 0;
+  num gReward = 0.0;
+  num gPeople = 0;
+  num gProfit = 0;
+  num gExpense = 0;
+  num gDiffer = 0;
 
-  void setReawrdMP() {
-    countPeople = invent7 + invent15 + invent35;
-    pointsMP = invent7*50 + invent15*110 + invent35*280;
-    rewardRef = invent7*1500 + invent15*4000 + invent35*7000;
+  num perProfit = 60;
+
+  num gPerProfit = 0;
+  num gPerDiffer = 0;
+  num gK = 0.0;
+  num gkCheck = 0;
+  num gShoudExpense = 0;
+
+  void setGeneral() {
+
+    gReward = 4*gPackage*gPercent*0.01;
+    gPeople = pow(2, gLevel);
+    gProfit = gPackage*gPeople;
+    gExpense = gReward*(gLevel-1)*pow(2,gLevel-2);
+    gDiffer = gProfit-gExpense;
+
+    gPerProfit = gProfit*perProfit*0.01;
+    gPerDiffer = gPerProfit-gExpense;
+    gK = gPerProfit/gExpense;
+    gkCheck = gPerProfit-(gK*gExpense);
+    gShoudExpense = gPerDiffer>=0 ? gExpense : gExpense*gK;
+
   }
-
-  //////
-  var rewardPercent = 10;
-  var leftB = 0;
-  var rightB = 0;
-  num rewardTO = 0.0;
-
-  void setTOReward() {
-    // var formdata = formstate.currentState;
-   var min = leftB<rightB? leftB : rightB;
-   print(min);
-   rewardTO = (min/50)*7000*rewardPercent*0.01;
-   print(rewardTO);
-
-  }
-
-  ///////////
-
-  var currentQual = '';
-  var rewardQual = 0;
-
-  void setQualReward() => {
-
-    if(leftB==3000 && rightB==3000) {
-      currentQual = 'Серебро',
-      rewardQual = 18000,
-    },
-
-    if(leftB==6000 && rightB==6000) {
-      currentQual = 'Золото',
-      rewardQual = 36000,
-    },
-
-    if(leftB==12000 && rightB==12000) {
-      currentQual = 'Бриллиант',
-      rewardQual = 72000,
-    },
-  };
-
-  ///////////////////
-
-  var premiumPercent = 26.5;
-
-  var premium35 = 0;   //кол-во купленных за 35 т.
-  var premium40 = 0;
-  num premiumReward = 0.0;
-
-  void setPremiumReward() {
-    if((premium35+premium40)>=7)
-    premiumReward = (premium35*35000 + premium40*40000)*premiumPercent*0.01;
-    else
-      premiumReward=0;
-  }
-
-
-
 
 
   @override
@@ -90,6 +56,7 @@ class _SecondPageState extends State<SecondPage> {
     return Scaffold(
       body: ListView(                    //если бы исп. Column, то при вводе текста вышла бы ошибка границ
         children: [
+          SizedBox(height: 20,),
           Row(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -100,27 +67,32 @@ class _SecondPageState extends State<SecondPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 20,),
+
+
+                        buildGeneralculc(),
 
                         //вход
-                        buildEnterPay(),
-                        SizedBox(height: 20,),
+                        // buildEnterPay(),
+                        // SizedBox(height: 20,),
+                        //
+                        // //товарооборот
+                        // buildTO(),
+                        // SizedBox(height: 20,),
+                        //
+                        // buildPremium(),
 
-                        //товарооборот
-                        buildTO(),
                         SizedBox(height: 20,),
-
-                        buildPremium(),
-                        SizedBox(height: 20,),
-
                         Container(
                             child: ElevatedButton(
                               onPressed: () {
                                 setState(() {
-                                  setReawrdMP();
-                                  setTOReward();
-                                  setQualReward();
-                                  setPremiumReward();
+
+                                  setGeneral();
+
+                                  // setReawrdMP();
+                                  // setTOReward();
+                                  // setQualReward();
+                                  // setPremiumReward();
                                 });
                               },
                               child: Text("Рассчитать",),
@@ -129,32 +101,8 @@ class _SecondPageState extends State<SecondPage> {
                         //Квалиф. бонус
 
                         SizedBox(height: 40,),
+                        // buildQualAndAll(),
 
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Квалификационный бонус'),
-                              SizedBox(height: 10,),
-                              Text('Кол-во баллов: '),
-                              Text('Квалификация: $currentQual'),
-                              Text('Квал. награда: $rewardQual'),
-                            ],),
-                          SizedBox(width: 130,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Всего: ${rewardRef+rewardTO+rewardQual+premiumReward}'),
-                              SizedBox(height: 10,),
-                              Text('Личная премия: $rewardRef'),
-                              Text('Бонус за ТО: $rewardTO'),
-                              Text('Квал. награда: $rewardQual'),
-                              Text('Премиальный бонус: $premiumReward'),
-
-                            ],),
-                        ],),
 
 
                       ],
@@ -164,14 +112,158 @@ class _SecondPageState extends State<SecondPage> {
 
             ],),
 
-
-
-
-          // levelModel(),
         ],
       ),
     );
   }
+
+
+  Widget buildGeneralculc() => Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Общие расчеты'),
+            SizedBox(height: 10,),
+            Row(
+              children: <Widget>[
+                Text('Вход:'),
+                SizedBox(width: 85),
+                SizedBox(
+                  width: 100,
+                  child:TextFormField(
+                    initialValue: '7000',
+                    onChanged: (val){ gPackage = int.parse(val); },
+
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1))
+                    ),
+                  ),),],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              children: <Widget>[
+                Text('Уровень'),
+                SizedBox(width: 63),
+                SizedBox(
+                  width: 50,
+                  child:TextFormField(
+                    initialValue: '5',
+                    onChanged: (val){ gLevel = int.parse(val); },
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1))
+                    ),
+                  ),),
+              ],
+            ),
+
+            SizedBox(height: 10,),
+            Row(
+              children: <Widget>[
+                Text('% награды'),
+                SizedBox(width: 48),
+                SizedBox(
+                  width: 50,
+                  child:TextFormField(
+                    initialValue: '10',
+                    onChanged: (val){ gPercent = double.parse(val); },
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1))
+                    ),
+                  ),),
+              ],
+            ),
+
+            SizedBox(height: 10,),
+            Row(
+              children: <Widget>[
+                Text('В сеть пойдет %:'),
+                SizedBox(width: 10),
+                SizedBox(
+                  width: 50,
+                  child:TextFormField(
+                    initialValue: '60',
+                    onChanged: (val){ perProfit = double.parse(val); },
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1))
+                    ),
+                  ),),
+              ],
+            ),
+
+
+
+          ],),
+        SizedBox(width: 165,),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Общие рассчеты:'),
+            SizedBox(height: 10,),
+            Text('Награда за цикл (4 чел): $gReward'), SizedBox(height: 5,),
+            Text('Клиентов на уровне: $gPeople'), SizedBox(height: 5,),
+            Text('Доход с ур.: $gProfit'), SizedBox(height: 5,),
+            Text('Расход с ур.: $gExpense'), SizedBox(height: 5,),
+            Text('Доход-расход: $gDiffer'),
+          ],
+        ),
+
+        SizedBox(width: 165,),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Расчеты с коэффициентом:'),
+            SizedBox(height: 10,),
+            Text('$perProfit% дохода это: $gPerProfit'), SizedBox(height: 5,),
+            Text('$perProfit% дохода - расход: $gPerDiffer'), SizedBox(height: 5,),
+            Text('Уравнивающий коэфф.: $gK'), SizedBox(height: 5,),
+            Text('Проверка: $gkCheck'), SizedBox(height: 5,),
+            Text('Расход дол. быть: $gShoudExpense'),
+          ],
+        ),
+      ]
+  );
+
+  Widget buildQualAndAll() => Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Квалификационный бонус'),
+          SizedBox(height: 10,),
+          Text('Кол-во баллов: '),
+          Text('Квалификация: $currentQual'),
+          Text('Квал. награда: $rewardQual'),
+        ],),
+      SizedBox(width: 130,),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Всего: ${rewardRef+rewardTO+rewardQual+premiumReward}'),
+          SizedBox(height: 10,),
+          Text('Личная премия: $rewardRef'),
+          Text('Бонус за ТО: $rewardTO'),
+          Text('Квал. награда: $rewardQual'),
+          Text('Премиальный бонус: $premiumReward'),
+
+        ],),
+    ],);
+
 
   Widget buildEnterPay() => Row(
       crossAxisAlignment: CrossAxisAlignment.center,
