@@ -16,7 +16,7 @@ class _SecondPageState extends State<SecondPage> {
 
   /////////
 
-  var gPackage = 7000;
+  var gPackage = 6999;
   var gLevel = 5;
   num gPercent = 10;
 
