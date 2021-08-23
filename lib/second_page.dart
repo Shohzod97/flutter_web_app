@@ -16,7 +16,7 @@ class _SecondPageState extends State<SecondPage> {
 
   /////////
 
-  var gPackage = 6998;
+  var gPackage = 10000;
   var gLevel = 5;
   num gPercent = 10;
 
@@ -134,7 +134,7 @@ class _SecondPageState extends State<SecondPage> {
                 SizedBox(
                   width: 100,
                   child:TextFormField(
-                    initialValue: '7000',
+                    initialValue: '10000',
                     onChanged: (val){ gPackage = int.parse(val); },
 
                     keyboardType: TextInputType.number,
