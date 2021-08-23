@@ -16,7 +16,7 @@ class _SecondPageState extends State<SecondPage> {
 
   /////////
 
-  var gPackage = 6999;
+  var gPackage = 7000;
   var gLevel = 5;
   num gPercent = 10;
 
@@ -129,7 +129,7 @@ class _SecondPageState extends State<SecondPage> {
             SizedBox(height: 10,),
             Row(
               children: <Widget>[
-                Text('Вход:'),
+                Text('Пакет по:'),
                 SizedBox(width: 85),
                 SizedBox(
                   width: 100,
