@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "marketing-web-8f28c"
-  }
+    "default": "marketing-web-8f28c",
+    "prod": "marketingtests-dc46e"
+  },
+  "targets": {}
 }
